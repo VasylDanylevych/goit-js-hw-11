@@ -17,6 +17,7 @@ export default class ImgApi {
     }
   };
 
+
   incrementPage() {
     this.page +=1;
   }

@@ -44,11 +44,9 @@ function onSearch(e) {
         } else {
              loadMore.classList.remove("is-hidden");
         };
-
-        const imgMarkup = images.hits.reduce((markup, image) => createMarkup(image) + markup, "");
         clearGallery();
-        appendMarkup(imgMarkup);
-
+        addImgMarukp(images);
+        
         Notiflix.Notify.info(`Hooray! We found ${images.totalHits} images.`);
         new SimpleLightbox('.gallery a', { captionDelay: 250,});
         scroll();
@@ -61,13 +59,12 @@ function onLoadMore() {
     imgApi.getImg().then((images) => {
         console.log(images);
 
-        if (images.hits.length <= 40) {
+        if (images.hits.length === 0) {
             loadMore.classList.add("is-hidden");
             Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");
         };
 
-        const imgMarkup = images.hits.reduce((markup, image) => createMarkup(image) + markup, "");
-        appendMarkup(imgMarkup)
+        addImgMarukp(images);
     })
 };
 
@@ -83,14 +80,18 @@ function scroll() {
 };
 
 
-function appendMarkup(markup) {
-    gallery.insertAdjacentHTML("beforeend", markup)
-};
-
 function clearGallery() {
     gallery.innerHTML = "";
 };
 
+function addImgMarukp(images) {
+    const imgMarkup = images.hits.reduce((markup, image) => createMarkup(image) + markup, "");
+    appendMarkup(imgMarkup);
+};
+
+function appendMarkup(markup) {
+    gallery.insertAdjacentHTML("beforeend", markup)
+};
 
 function createMarkup(image) {
     return `
