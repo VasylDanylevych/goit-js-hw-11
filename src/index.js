@@ -61,7 +61,7 @@ function onLoadMore() {
     imgApi.getImg().then((images) => {
         console.log(images);
 
-        if (images.hits.length === 0) {
+        if (images.hits.length <= 40) {
             loadMore.classList.add("is-hidden");
             Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");
         };
