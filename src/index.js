@@ -48,7 +48,6 @@ function onSearch(e) {
         addImgMarukp(images);
         
         Notiflix.Notify.info(`Hooray! We found ${images.totalHits} images.`);
-        new SimpleLightbox('.gallery a', { captionDelay: 250,})
         scroll();
     })
 };
@@ -65,7 +64,6 @@ function onLoadMore() {
         };
 
         addImgMarukp(images);
-        new SimpleLightbox('.gallery a', { captionDelay: 250,}).refresh();
     })
 };
 
@@ -88,6 +86,7 @@ function clearGallery() {
 function addImgMarukp(images) {
     const imgMarkup = images.hits.reduce((markup, image) => createMarkup(image) + markup, "");
     appendMarkup(imgMarkup);
+    new SimpleLightbox('.gallery a', { captionDelay: 250,}).refresh();
 };
 
 function appendMarkup(markup) {
