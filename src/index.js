@@ -39,11 +39,15 @@ function onSearch(e) {
             return
         };
 
+        if (images.totalHits <= 40) {
+            loadMore.classList.add("is-hidden");
+        } else {
+             loadMore.classList.remove("is-hidden");
+        };
+
         const imgMarkup = images.hits.reduce((markup, image) => createMarkup(image) + markup, "");
         clearGallery();
         appendMarkup(imgMarkup);
-
-        loadMore.classList.remove("is-hidden");
 
         Notiflix.Notify.info(`Hooray! We found ${images.totalHits} images.`);
         new SimpleLightbox('.gallery a', { captionDelay: 250,});
@@ -56,6 +60,7 @@ function onLoadMore() {
     imgApi.incrementPage()
     imgApi.getImg().then((images) => {
         console.log(images);
+
         if (images.hits.length === 0) {
             loadMore.classList.add("is-hidden");
             Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");
