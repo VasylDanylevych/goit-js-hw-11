@@ -2,43 +2,47 @@ img {
     display: block;
     width: 100%;
     height: 180px;
-  }
+}
   
-  button {
+button {
     background-color: #99FFFF;
-    border-radius: 5px;
+    border-radius: 4px;
     border: none;
     cursor: pointer;
     width: 100px;
     height: 30px;
-  }
+}
   
-  button.load-more {
+button.load-more {
     display: block;
     margin: 0 auto;
     width: 100px;
     height: 30px;
-  }
+}
   
-  button.is-hidden {
+button.is-hidden {
     display: none;
-  }
+}
   
-  button:hover {
+button:hover {
     background-color: #9999FF;
-  }
+}
   
-  input {
+input {
     outline: none;
-    border-radius: 5px;
+    border-radius: 4px;
     width: 176px;
     height: 26px;
     cursor: pointer;
     border: 1px solid rgba(33, 33, 33, 0.2);
     padding-left: 20px;
-  }
-  
-  .search-form {
+}
+
+input:focus {
+    border: 1px solid #9999FF;
+    border-radius: 4px;
+  } 
+.search-form {
     position: fixed;
     top: 0;
     left: 0;
@@ -46,9 +50,9 @@ img {
     padding: 15px 0px;
     text-align: center;
     background-color: #FFFF99;
-  }
+}
   
-  .gallery {
+.gallery {
     margin: 0 auto;
     width: 1200px;
     margin-top: 40px;
@@ -56,13 +60,13 @@ img {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-  }
+}
   
-  .photo-card {
+.photo-card {
     width: calc((100% / 4) - 15px);
-  }
+}
   
-  .info {
+.info {
     display: flex;
     justify-content: space-between;
     gap: 5px;
@@ -70,10 +74,10 @@ img {
     border-left: 1px solid rgba(33, 33, 33, 0.2);
     border-right: 1px solid rgba(33, 33, 33, 0.2);
     border-bottom: 1px solid rgba(33, 33, 33, 0.2);
-  }
+}
   
-  .info-item {
+.info-item {
     display: flex;
     flex-direction: column;
     text-align: center;
-  }
+}

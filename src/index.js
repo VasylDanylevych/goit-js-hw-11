@@ -1,6 +1,10 @@
 import './css/styles.css';
 import ImgApi from './api';
 import Notiflix from 'notiflix';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
+
 
 const form = document.getElementById("search-form");
 const gallery = document.querySelector(".gallery");
@@ -14,27 +18,63 @@ loadMore.addEventListener("click", onLoadMore);
 
 window.onload = () => input.focus();
 
+loadMore.classList.add("is-hidden");
+
+
 function onSearch(e) {
     e.preventDefault();
 
-    imgApi.query = e.currentTarget.elements.searchQuery.value;
+    imgApi.query = e.currentTarget.elements.searchQuery.value.trim();
+        
+    if (imgApi.query === "") {
+        Notiflix.Notify.failure("Please, fill in the field, so we know what you're looking for.")
+        return
+    };
 
     imgApi.resetPage()
     imgApi.getImg().then((images) => {
-        console.log(images)
+        console.log(images);
+        if (images.hits.length === 0) {
+            Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
+            return
+        };
+
         const imgMarkup = images.hits.reduce((markup, image) => createMarkup(image) + markup, "");
-        clearGallery()
-        appendMarkup(imgMarkup)
+        clearGallery();
+        appendMarkup(imgMarkup);
+
+        loadMore.classList.remove("is-hidden");
+
+        Notiflix.Notify.info(`Hooray! We found ${images.totalHits} images.`);
+        new SimpleLightbox('.gallery a', { captionDelay: 250,});
+        scroll();
     })
 };
 
 function onLoadMore() {
+
+    imgApi.incrementPage()
     imgApi.getImg().then((images) => {
-        console.log(images)
+        console.log(images);
+        if (images.hits.length === 0) {
+            loadMore.classList.add("is-hidden");
+            Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");
+        };
+
         const imgMarkup = images.hits.reduce((markup, image) => createMarkup(image) + markup, "");
         appendMarkup(imgMarkup)
     })
-    imgApi.incrementPage()
+};
+
+function scroll() {
+    const { height: cardHeight } = document
+  .querySelector(".gallery")
+  .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+        top: cardHeight * 2,
+        behavior: "smooth",
+    });
 };
 
 
@@ -45,6 +85,7 @@ function appendMarkup(markup) {
 function clearGallery() {
     gallery.innerHTML = "";
 };
+
 
 function createMarkup(image) {
     return `
