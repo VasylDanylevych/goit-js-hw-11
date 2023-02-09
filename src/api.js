@@ -2,14 +2,34 @@ const axios = require('axios').default;
 const URL = "https://pixabay.com/api/";
 const API_KEY = "33456182-4b4e94c7d011671bbd7c07f09";
 
-function getImg(value) {
+export default class ImgApi {
+  constructor() {
+    this.page = 1;
+    this.searchQuery = "";
+  };
 
-    return axios.get(`${URL}?key=${API_KEY}&q=${value}&image_type=photo&orientation=horizontal&safesearch=true`)
-    .then((res) => {
-        if (!res.ok) {
-            throw new Error(res.status);
-          }
-        return res.json()});
-};
+  async getImg() {
+    try {
+      const response = await axios.get(`${URL}?key=${API_KEY}&page=${this.page}&per_page=40&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true`);
+      return response.data;
+    } catch (error) {
+      console.error(error)
+    }
+  };
 
-export { getImg };
+  incrementPage() {
+    this.page +=1;
+  }
+
+  resetPage() {
+    this.page = 1;
+  }
+  
+  get query() {
+    return this.searchQuery;
+  }
+
+  set query(newQuery) {
+    this.searchQuery = newQuery;
+  }
+}
