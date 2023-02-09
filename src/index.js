@@ -4,23 +4,26 @@ import Notiflix from 'notiflix';
 
 const form = document.getElementById("search-form");
 const gallery = document.querySelector(".gallery");
-const loadMore = document.querySelector(".load-more")
+const loadMore = document.querySelector(".load-more");
+const input = document.querySelector("input");
 
 const imgApi = new ImgApi();
 
 form.addEventListener("submit", onSearch);
-loadMore.addEventListener("click", onLoadMore)
+loadMore.addEventListener("click", onLoadMore);
+
+window.onload = () => input.focus();
 
 function onSearch(e) {
     e.preventDefault();
 
     imgApi.query = e.currentTarget.elements.searchQuery.value;
-    
 
     imgApi.resetPage()
     imgApi.getImg().then((images) => {
         console.log(images)
         const imgMarkup = images.hits.reduce((markup, image) => createMarkup(image) + markup, "");
+        clearGallery()
         appendMarkup(imgMarkup)
     })
 };
@@ -37,6 +40,10 @@ function onLoadMore() {
 
 function appendMarkup(markup) {
     gallery.insertAdjacentHTML("beforeend", markup)
+};
+
+function clearGallery() {
+    gallery.innerHTML = "";
 };
 
 function createMarkup(image) {
